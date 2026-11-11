@@ -1,0 +1,40 @@
+RESULTADO DE LA EJECUCIÓN - MUESTRA
+Proyecto: Análisis de polaridad de recomendaciones en Steam según tiempo de juego
+Grupo 4 - CC5212 - 11 de noviembre de 2026
+=============================================================================
+
+TIPO DE EJECUCIÓN : MUESTRA (100.000 filas, todas de appid=10 / Counter-Strike)
+ENTRADA HDFS       : /uhadoop2026/projects/grupo4/sample/sample_reviews.csv
+SCRIPTS CARGADOS   : steam_polarity_global.pig   (LOAD con CSVExcelStorage + esquema real)
+                     steam_polarity_by_game.pig  (LOAD con CSVExcelStorage + esquema real)
+                     run_analysis.sh (lanzador previo, reproducido con llamadas manuales)
+SALIDAS HDFS       : /uhadoop2026/projects/grupo4/test_output_global/part-00000
+                     /uhadoop2026/projects/grupo4/test_output_by_game/part-00000
+MODO               : pig -x mapreduce (Hadoop 2.10.0 + Pig 0.18.0-SNAPSHOT)
+Duración aprox.    : ~3 min por job (incluye overhead de cola/arranque)
+
+ADVERTENCIA: Esta corrida es SOLO de validación. La muestra contiene
+únicamente Counter-Strike (appid=10), por lo que NO responde la pregunta
+de investigación. La respuesta sale de la corrida completa.
+
+COLUMNAS GLOBAL    : playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
+COLUMNAS POR JUEGO : appid, game, playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
+
+----------------------------------------------------------------------
+RESULTADO GLOBAL (1 línea por rango)
+----------------------------------------------------------------------
+1. 0-10h	24990	23740	1250	95.0
+2. 10-50h	22347	21799	548	97.55
+3. 50-200h	17364	17051	313	98.2
+4. 200h+	35299	34664	635	98.2
+
+Suma de total_reviews = 100.000 (el 100% del archivo procesado; la cabecera se descarta).
+Positivas = 97.254 | Negativas = 2.746 (coincide con conteo independiente con python3/csv).
+
+----------------------------------------------------------------------
+RESULTADO POR JUEGO (filtro >= 20 reseñas por segmento; aquí solo hay appid=10)
+----------------------------------------------------------------------
+10	Counter-Strike	1. 0-10h	24990	23740	1250	95.0
+10	Counter-Strike	2. 10-50h	22347	21799	548	97.55
+10	Counter-Strike	3. 50-200h	17364	17051	313	98.2
+10	Counter-Strike	4. 200h+	35299	34664	635	98.2

@@ -1,0 +1,56 @@
+RESULTADO DE LA EJECUCIÓN - COMPLETA
+Proyecto: Análisis de polaridad de recomendaciones en Steam según tiempo de juego
+Grupo 4 - CC5212 - 11 de noviembre de 2026
+=============================================================================
+
+TIPO DE EJECUCIÓN : COMPLETA (dataset completo)
+ENTRADA HDFS       : /uhadoop2026/projects/grupo4/data/steam_reviews.csv.bz2 (11 GB)
+REGISTROS LEÍDOS   : 113.886.240 (línea del log: "Successfully read 113886240 records (11868995973 bytes)")
+SCRIPTS CARGADOS   : steam_polarity_global.pig    -> salida /uhadoop2026/projects/grupo4/output_steam_polarity_global
+                     steam_polarity_by_game.pig   -> salida /uhadoop2026/projects/grupo4/output_steam_polarity_by_game
+                     ambos: LOAD con CSVExcelStorage (esquema real verificado) vía run_analysis.sh
+MODO               : pig -x mapreduce (Hadoop 2.10.0 + Pig 0.18.0-SNAPSHOT)
+Duración GLOBAL    : 43 min 54 s (log en /data/2026/uhadoop/martin_y_benja/proyecto_steam/full_run.log)
+ID DE JOB GLOBAL   : job_1792210554645_0007 (SUCCEEDED)
+
+COLUMNAS GLOBAL    : playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
+COLUMNAS POR JUEGO : appid, game, playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
+
+----------------------------------------------------------------------
+RESULTADO GLOBAL (113.886.240 reseñas procesadas; suma de total_reviews)
+----------------------------------------------------------------------
+playtime_range	total_reviews	positive_reviews	negative_reviews	positive_percentage
+1. 0-10h	29443003	22315491	7127512	75.79
+2. 10-50h	33243975	29718310	3525665	89.39
+3. 50-200h	25600356	23175504	2424852	90.53
+4. 200h+	25595623	22260846	3334777	86.97
+
+Lectura rápida de la pregunta de investigación:
+- Las reseñas menos positivas vienen del rango 0-10h (75.79%) y las más positivas
+  del rango 50-200h (90.53%).
+- Los veteranos (200h+, 86.97%) NO son más negativos que el grueso intermedio;
+  el grupo más positivo es 50-200h. El patrón no es monótono.
+
+----------------------------------------------------------------------
+RESULTADO POR JUEGO
+----------------------------------------------------------------------
+ESTADO AL GUARDAR ESTE ARCHIVO: job EN EJECUCIÓN (job_1792210554645_0010,
+arrancó 20:44, ~40-60 min). Salida esperada en:
+
+  /uhadoop2026/projects/grupo4/output_steam_polarity_by_game/part-*
+
+Para recuperar el resultado cuando termine (en el master, cm.dcc.uchile.cl):
+
+  export HADOOP_HOME=/data/hadoop/hadoop-2.10.0
+  export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+  export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+  hdfs dfs -cat /uhadoop2026/projects/grupo4/output_steam_polarity_by_game/part-* > results_by_game.txt
+  wc -l results_by_game.txt
+
+o bien pedir en una sesión posterior que se copie el resultado a `results/`
+en este repositorio.
+
+Formato de salida: appid, game, playtime_range, total_reviews,
+positive_reviews, negative_reviews, positive_percentage
+(con filtro total_reviews >= 20 por segmento; ordenado por appid y rango).

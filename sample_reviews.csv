@@ -1,13 +1,14 @@
-app_id,review_id,review_text,voted_up,author_playtime_forever,author_playtime_at_review
-730,1001,"Buen juego competitivo",True,300,250
-730,1002,"Divertido",True,150,150
-730,1003,"Muchos cheaters arruinaron el juego",False,15000,14000
-730,1004,"Pase de batalla toxico",False,25000,24000
-730,1005,"Gran shooter",True,1200,1000
-570,2001,"Excelente moba",True,500,400
-570,2002,"Comunidad toxica y balance pesimo",False,35000,32000
-570,2003,"No lo recomiendo a nuevos",False,800,700
-570,2004,"Me encanta",True,18000,17000
-105600,3001,"Terraria es una obra de arte",True,450,400
-105600,3002,"Increible con amigos",True,4200,4000
-105600,3003,"Juegazo 10/10",True,18000,16000
+recommendationid,appid,game,author_steamid,author_num_games_owned,author_num_reviews,author_playtime_forever,author_playtime_last_two_weeks,author_playtime_at_review,author_last_played,language,review,timestamp_created,timestamp_updated,voted_up,votes_up,votes_funny,weighted_vote_score,comment_count,steam_purchase,received_for_free,written_during_early_access,hidden_in_steam_china,steam_china_location
+148919893,10,Counter-Strike,76561199036724879,0,3,197,197,197,1698336369,russian,старость,1698336397,1698336397,1,0,0,0.0,0,1,0,0,1,
+148919350,10,Counter-Strike,76561198826729322,0,21,441,37,441,1698335809,russian,Лучше кс 2,1698335821,1698335821,1,0,0,0.0,0,1,0,0,1,
+148913051,10,Counter-Strike,76561199101237625,7,1,1440,1440,1313,1698338635,turkish,çoh iyi ama pahalı,1698329862,1698329862,1,0,0,0.0,0,1,0,0,1,
+148905699,10,Counter-Strike,76561198820122182,88,39,11,0,11,1695752100,turkish,eskisi kadar sarmiyor,1698321259,1698321259,1,0,0,0.0,0,0,0,0,1,
+148900627,10,Counter-Strike,76561198346217916,0,2,45119,503,45119,1698157431,russian,Идеальная,1698314419,1698314419,1,0,0,0.0,0,1,0,0,1,
+148898785,10,Counter-Strike,76561198853145449,491,60,721,0,721,1660831719,schinese,史上最优秀的fps游戏，众多国产游戏抄袭的对象，永远无法跨越的经典,1698311451,1698311451,1,0,0,0.0,0,1,0,0,1,
+148895230,10,Counter-Strike,76561197985437504,0,5,42519,3,42515,1698305811,english,"best version of cs ever, history.",1698305569,1698305569,1,0,0,0.0,0,0,0,0,1,
+148886265,10,Counter-Strike,76561199019766609,52,1,25944,449,25944,1697507624,latam,"No sé que cosa daba más miedo, un tipo usando la awp como un profesional o que el dueño del ciber te diga: ""Joven, le quedan 5 minutos de su media hora"".",1698288485,1698288485,1,0,0,0.0,0,0,1,0,1,
+148851019,10,Counter-Strike,76561198143459823,116,1,63,12,63,1698099183,english,"cs2 update made the game barely playable on my laptop, decided to give the good old classics a try, had this in my library for a while  this game is nearly impossible to play in 2023 due to most community servers being a cesspool of ugly, visually distracting customization that shits on original game's solid half-life low poly aesthetics, power creeping admins and pay to win donation systems, absolutely unbearable community - most people on the closest servers with playable ping rates were not very well-adjusted eastern european boomers who grew up with it, this game's main audience really, and the worst on top of everything - servers that can inject your pc with malicious software, since there is zero restriction or review process on what custom content server admins can force you to download  in the best case you can have some fun with bots (that you have to set up manually, there is a guide, though i swear to god they were a part of the game before?) but you can only play so much with bots  all in all more of a museum artifact of a long gone online gaming era than an actual playable game  a damn shame",1698241327,1698241327,0,4,0,0.536979854106903,0,1,0,0,1,
+148709042,10,Counter-Strike,76561199556959569,0,2,1774,1516,1447,1698307637,spanish,asd,1698026582,1698026582,0,0,0,0.491803258657455,0,1,0,0,1,
+148635292,10,Counter-Strike,76561198333892852,0,4,185090,476,184908,1698340106,brazilian,Não recomendo.,1697930481,1697930481,0,0,0,0.476190477609634,0,1,0,0,1,
+148875516,10,Counter-Strike,76561198125709322,0,1,5684,66,5617,1698324019,spanish,"El mejor juego de la historia mundial, un clasico que nos llena de nostalgia a los +25",1698270350,1698270350,1,0,0,0.0,0,1,0,0,1,
+148855125,10,Counter-Strike,76561198099226325,55,5,534,0,534,1696945395,romanian,"A veteran game, what can I say, good luck have fun.",1698245750,1698245750,1,0,0,0.0,0,1,0,0,1,
