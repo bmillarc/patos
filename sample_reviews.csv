@@ -1,0 +1,13 @@
+app_id,review_id,review_text,voted_up,author_playtime_forever,author_playtime_at_review
+730,1001,"Buen juego competitivo",True,300,250
+730,1002,"Divertido",True,150,150
+730,1003,"Muchos cheaters arruinaron el juego",False,15000,14000
+730,1004,"Pase de batalla toxico",False,25000,24000
+730,1005,"Gran shooter",True,1200,1000
+570,2001,"Excelente moba",True,500,400
+570,2002,"Comunidad toxica y balance pesimo",False,35000,32000
+570,2003,"No lo recomiendo a nuevos",False,800,700
+570,2004,"Me encanta",True,18000,17000
+105600,3001,"Terraria es una obra de arte",True,450,400
+105600,3002,"Increible con amigos",True,4200,4000
+105600,3003,"Juegazo 10/10",True,18000,16000
