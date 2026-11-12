@@ -12,6 +12,8 @@ SCRIPTS CARGADOS   : steam_polarity_global.pig    -> salida /uhadoop2026/project
 MODO               : pig -x mapreduce (Hadoop 2.10.0 + Pig 0.18.0-SNAPSHOT)
 Duración GLOBAL    : 43 min 54 s (log en /data/2026/uhadoop/martin_y_benja/proyecto_steam/full_run.log)
 ID DE JOB GLOBAL   : job_1792210554645_0007 (SUCCEEDED)
+ID DE JOB POR JUEGO: job_1792210554645_0010 (SUCCEEDED, 45 min 46 s)
+RECUPERADO         : resultados por juego descargados desde HDFS y guardados el 2026-11-12
 
 COLUMNAS GLOBAL    : playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
 COLUMNAS POR JUEGO : appid, game, playtime_range, total_reviews, positive_reviews, negative_reviews, positive_percentage
@@ -32,25 +34,34 @@ Lectura rápida de la pregunta de investigación:
   el grupo más positivo es 50-200h. El patrón no es monótono.
 
 ----------------------------------------------------------------------
-RESULTADO POR JUEGO
+RESULTADO POR JUEGO - COMPLETADO
 ----------------------------------------------------------------------
-ESTADO AL GUARDAR ESTE ARCHIVO: job EN EJECUCIÓN (job_1792210554645_0010,
-arrancó 20:44, ~40-60 min). Salida esperada en:
+ESTADO: COMPLETADO. Job job_1792210554645_0010 (SUCCEEDED el 2026-11-11 21:29,
+duración 45 min 46 s).
 
-  /uhadoop2026/projects/grupo4/output_steam_polarity_by_game/part-*
+Salida completa guardada en: results/resultados_por_juego.txt (77.781 líneas,
+con cabecera descriptiva; columnas: appid, game, playtime_range, total_reviews,
+positive_reviews, negative_reviews, positive_percentage).
 
-Para recuperar el resultado cuando termine (en el master, cm.dcc.uchile.cl):
+Réplica en HDFS (fuente de verdad):
+  /uhadoop2026/projects/grupo4/output_steam_polarity_by_game/part-r-00000 .. part-r-00019
 
-  export HADOOP_HOME=/data/hadoop/hadoop-2.10.0
-  export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
-  export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-  export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
-  hdfs dfs -cat /uhadoop2026/projects/grupo4/output_steam_polarity_by_game/part-* > results_by_game.txt
-  wc -l results_by_game.txt
+Verificaciones del archivo (hechas el 2026-11-12):
+- Suma de total_reviews = 113.233.586 (los segmentos con <20 reseñas fueron
+  descartados; cobertura ~99,4 % del global).
+- 46.889 juegos (appids) con al menos un rango con >=20 reseñas.
+- 4.962 juegos con los 4 rangos poblados; 3.267 de ellos con >=500 reseñas
+  en el segmento 0-10h.
 
-o bien pedir en una sesión posterior que se copie el resultado a `results/`
-en este repositorio.
+Hallazgos por juego (3.267 juegos comparables):
+- Delta mediano (200h+ menos 0-10h) = +19,82 puntos porcentuales.
+- Solo 64 de 3.267 juegos (2,0 %) muestran veteranos MAS negativos que novatos.
+- Mayores caídas en 200h+ vs 0-10h: KARDS (-20,74 pp), KurtzPel (-12,00 pp),
+  VRChat (-11,64 pp), Draw & Guess (-10,73 pp), Brothers - A Tale of Two Sons (-10,30 pp).
+- Mayores alzas en 200h+ vs 0-10h (juegos castigantes al inicio y amados despues):
+  Outward (+66,96 pp), FINAL FANTASY XIV Online (+66,90 pp), ELEX (+66,86 pp),
+  Cube World (+64,41 pp), Dungeon Siege III (+63,99 pp).
 
-Formato de salida: appid, game, playtime_range, total_reviews,
-positive_reviews, negative_reviews, positive_percentage
-(con filtro total_reviews >= 20 por segmento; ordenado por appid y rango).
+Notas: el análisis por juego alimenta el mismo matiz que el global: los
+veteranos NO tienden a ser más negativos; el patrón contrario domina salvo en
+una minoría de casos (ver detalles por línea en resultados_por_juego.txt).
