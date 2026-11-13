@@ -7,9 +7,9 @@ TIPO DE EJECUCIÓN : MUESTRA (100.000 filas, todas de appid=10 / Counter-Strike)
 ENTRADA HDFS       : /uhadoop2026/projects/grupo4/sample/sample_reviews.csv
 SCRIPTS CARGADOS   : steam_polarity_global.pig   (LOAD con CSVExcelStorage + esquema real)
                      steam_polarity_by_game.pig  (LOAD con CSVExcelStorage + esquema real)
-                     run_analysis.sh (lanzador previo, reproducido con llamadas manuales)
-SALIDAS HDFS       : /uhadoop2026/projects/grupo4/test_output_global/part-00000
-                     /uhadoop2026/projects/grupo4/test_output_by_game/part-00000
+                     run_analysis.sh (lanzador; la corrida de humo usó los mismos parámetros con rutas de test)
+SALIDAS HDFS       : /uhadoop2026/projects/grupo4/test_output_global/part-*
+                     /uhadoop2026/projects/grupo4/test_output_by_game/part-*
 MODO               : pig -x mapreduce (Hadoop 2.10.0 + Pig 0.18.0-SNAPSHOT)
 Duración aprox.    : ~3 min por job (incluye overhead de cola/arranque)
 

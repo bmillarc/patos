@@ -28,7 +28,10 @@ Dado que la API de Steam entrega el tiempo en **minutos**, se segmenta de la sig
 - steam_polarity_global.pig: Consulta Pig Latin para calcular la tasa de recomendación global por cada rango de tiempo.
 - steam_polarity_by_game.pig: Consulta Pig Latin para calcular la tasa por cada juego (`appid`) y rango de horas.
 - run_analysis.sh: Script Bash para lanzar los trabajos en el cluster HDFS con parámetros de entrada y salida.
-- sample_reviews.csv: Muestra pequeña (filas reales del dataset) para validar sintaxis y lógica en modo local (`pig -x local`).
+- sample_reviews.csv: Muestra pequeña (13 filas reales del dataset, con negativas y comas en el texto) para revisar el esquema. La prueba de humo real se hace sobre la muestra de 100.000 filas en HDFS (ver sección más abajo).
+- results/resultados_muestra_100k.txt: Resultado de la corrida de validación (muestra, appid=10).
+- results/resultados_completo.txt: Resultado completo (113.886.240 reseñas), global y por juego (resumen + verificaciones).
+- results/resultados_por_juego.txt: Salida íntegra de la consulta por juego (77.781 líneas, una fila por `appid` × rango).
 
 ---
 
@@ -59,7 +62,7 @@ Notas importantes (la primera versión de los scripts asumía un esquema que no 
    ```
    REGISTER /data/hadoop/spark-2.1.0-bin-hadoop2.3.old/pig-0.14.0/lib/piggybank.jar;
    ```
-   (piggybank 0.14 incluido en el clúster funciona con Pig 0.18 para este caso; verificado con 200 líneas reales.)
+   (piggybank 0.14 incluido en el clúster funciona con Pig 0.18 para este caso; verificado con 200 líneas reales. La ruta del jar es propia del clúster del curso; en otro entorno, apunte a su propio `piggybank.jar`.)
 3. La cabecera no castea a `int`/`long`, por lo que `appid` queda `NULL` y los `FILTER` la descartan automáticamente.
 4. El campo `review` no se utiliza en este análisis y se descarta en la proyección.
 5. `author_playtime_forever` = minutos acumulados **de toda la vida** en el juego (lifetime). El análisis usa este campo (los rangos del objetivo). `author_playtime_at_review` (minutos al momento de escribir la reseña) queda disponible en la carga si luego se quieren comparar.
@@ -112,7 +115,7 @@ hdfs dfs -cat /uhadoop2026/projects/grupo4/test_output_global/part-*
 hdfs dfs -cat /uhadoop2026/projects/grupo4/test_output_by_game/part-*
 ```
 
-Resultado esperado en la muestra (appid=10, ~97% positivas): los 4 rangos con totales y porcentajes cercanos al 97%.
+Resultado obtenido en la muestra (véase results/resultados_muestra_100k.txt): 0-10h → 95,0 % | 10-50h → 97,55 % | 50-200h → 98,2 % | 200h+ → 98,2 %. Las sumas cuadran al 100 % con el conteo del archivo.
 
 ---
 
@@ -125,8 +128,19 @@ Resultado esperado en la muestra (appid=10, ~97% positivas): los 4 rangos con to
 
 ---
 
-## 📊 Después del job: responder la pregunta
+## 📊 Resultados (corrida del 11-nov-2026, dataset completo)
 
-1. `hdfs dfs -cat <output_global>/part-*` → ¿la proporción de positivas cae al subir las horas? (responder §Objetivo)
-2. `hdfs dfs -cat <output_by_game>/part-*` → identificar juegos donde los veteranos son más críticos (porcentajes por rango y volumen por segmento).
-3. Copiar los part-* al repo (`results/`) y graficar (Python/Excel) para el informe: barras de `positive_percentage` por rango (global) y comparaciones por juego.
+**GLOBAL** (113.886.240 reseñas procesadas; ~3.283 filas descartadas por nulos/cabecera):
+
+| Rango | Reseñas | % positivo |
+|---|---|---|
+| 1. 0-10h | 29.443.003 | 75,79 |
+| 2. 10-50h | 33.243.975 | 89,39 |
+| 3. 50-200h | 25.600.356 | 90,53 |
+| 4. 200h+ | 25.595.623 | 86,97 |
+
+**POR JUEGO** (filtro ≥20 reseñas por segmento): 46.889 juegos con al menos un rango significativo; 4.962 con los 4 rangos; 3.267 comparables (≥500 reseñas en 0-10h). Delta mediano entre 200h+ y 0-10h = **+19,82 pp**; solo **64/3.267 (2,0 %)** muestran veteranos más negativos (ej. KARDS −20,74 pp, KurtzPel −12,00 pp, VRChat −11,64 pp). Los mayores deltas positivos son juegos castigantes al inicio y amados después (Outward, FINAL FANTASY XIV, ELEX ≈ +67 pp).
+
+**Conclusión del estudio:** los jugadores veteranos (200h+) NO emiten más reseñas negativas; el segmento más crítico es el de 0-10h (75,8 % positivo). La relación no es monótona: la satisfacción sube hasta el rango 50-200h y cae levemente en 200h+.
+
+Detalle completo y verificaciones en [results/resultados_completo.txt](results/resultados_completo.txt) y [results/resultados_por_juego.txt](results/resultados_por_juego.txt) (réplica de la salida de HDFS, 77.781 líneas). Réplica en HDFS: `/uhadoop2026/projects/grupo4/output_steam_polarity_global` y `/uhadoop2026/projects/grupo4/output_steam_polarity_by_game`.
