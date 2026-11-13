@@ -11,7 +11,7 @@
 -- ==============================================================================
 
 -- 1. Optimizaciones de ejecución en Hadoop MapReduce
-SET default_parallel 20;                     -- Incrementar según tamaño del cluster
+SET default_parallel 20;                    
 SET pig.exec.reducers.bytes.per.reducer 134217728;
 SET mapreduce.map.speculative false;
 SET mapreduce.reduce.speculative false;

@@ -25,8 +25,8 @@
 -- ==============================================================================
 
 -- 1. Optimizaciones de ejecución en Hadoop MapReduce
-SET default_parallel 10;                     -- Ajustar según capacidad del cluster (vCores/Reducers)
-SET pig.exec.reducers.bytes.per.reducer 134217728; -- 128 MB por reducer para balancear carga
+SET default_parallel 10;                     
+SET pig.exec.reducers.bytes.per.reducer 134217728; 
 SET mapreduce.map.speculative false;
 SET mapreduce.reduce.speculative false;
 
